@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Chart from 'chart.js/auto'; // Import Chart.js library
+import Chart from 'chart.js/auto'; 
 import { BASE_URL } from './../api/apiService';
 
 const UserCountChart = () => {
@@ -8,7 +8,7 @@ const UserCountChart = () => {
 
   const fetchUserCounts = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/user/userCounts`); // Replace '/api/userCounts' with your actual API endpoint
+      const response = await fetch(`${BASE_URL}/api/user/userCounts`);
       if (response.ok) {
         const data = await response.json();
         setUserCounts(data);
@@ -23,7 +23,7 @@ const UserCountChart = () => {
   const renderChart = () => {
     const ctx = document.getElementById('userCountChart').getContext('2d');
     if (chartRef.current) {
-      chartRef.current.destroy(); // Destroy the previous chart instance if it exists
+      chartRef.current.destroy(); 
     }
     const labels = Object.keys(userCounts);
     const data = {
@@ -51,12 +51,12 @@ const UserCountChart = () => {
   };
 
   useEffect(() => {
-    fetchUserCounts(); // Fetch user counts when component mounts
+    fetchUserCounts(); 
   }, []);
 
   useEffect(() => {
     if (Object.keys(userCounts).length > 0) {
-      renderChart(); // Render chart when userCounts data is available
+      renderChart(); 
     }
   }, [userCounts]);
 
@@ -65,6 +65,11 @@ const UserCountChart = () => {
       <div className="w-1/2 h-1/2">
         <h1 className="text-center text-3xl font-bold mb-4">User Login Counts</h1>
         <canvas id="userCountChart"></canvas>
+        <div className="mt-4">
+          {Object.keys(userCounts).map((key) => (
+            <p key={key} className="text-center">{`${key}: ${userCounts[key]}`}</p>
+          ))}
+        </div>
       </div>
     </div>
   );
