@@ -2,7 +2,7 @@ import User from "../models/User.js";
 import NodeCache from 'node-cache';
 
 
-const cache = new NodeCache();
+ export const cache = new NodeCache();
 
 export const getAllUsers = async (req, res, next) => {
   try {

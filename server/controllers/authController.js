@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-
+import { cache } from "./userController.js";
 export const signup=async(req,res,next)=>{
     const {name,email,password,gender}=req.body
     if (!email || !password || !name) {
@@ -56,7 +56,9 @@ export const signin = async (req, res, next) => {
         );
 
         const { password: userPassword, ...rest } = validUser._doc;
+        cache.del(['allusers','userCounts'])
         res.status(200).cookie('access_token', token, { httpOnly: true }).json({ ...rest, access_token: token }); 
+
     } catch (error) {
         next(error);
     }
