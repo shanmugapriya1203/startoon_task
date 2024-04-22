@@ -1,3 +1,4 @@
+import path from 'path'
 import express from 'express'
 import mongoose from 'mongoose';
 import cors from 'cors'
@@ -5,7 +6,7 @@ import dotenv from 'dotenv'
 import authRoute from './routes/authRoutes.js'
 import userRoute from './routes/userRoutes.js'
 dotenv.config();
-
+const __dirname=path.resolve()
 const app = express();
 
 
@@ -19,8 +20,10 @@ mongoose.connect(process.env.MONGO)
 
 app.use(express.json());
 app.use(cors({credentials:true}));
-
-
+app.use(express.static(path.join(__dirname,"/client/build")))
+app.get('*',(req,res)=>{
+    res.sendFile(path.join(__dirname,"/client/build/index.html"))
+})
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
